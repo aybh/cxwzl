@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>我要上报 - 楚雄微智理</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --color-primary: rgb(59, 130, 246);    /* 蓝色 */
+            --color-secondary: rgb(79, 70, 229);   /* 靛蓝色 */
+            --color-accent: rgb(139, 92, 246);     /* 淡紫色 */
+            --color-light: rgb(243, 244, 246);     /* 浅灰色背景 */
+            --color-dark: rgb(31, 41, 55);         /* 深色文字 */
+        }
+        
+        body {
+            font-family: "SF Pro Display", "SF Pro Icons", "PingFang SC", "Helvetica Neue", Helvetica, Arial, sans-serif;
+            min-height: 100vh;
+        }
+        
+        .status-bar {
+            height: 44px;
+            background-color: #f8f8f8;
+            padding: 0 16px;
+            font-size: 14px;
+        }
+        
+        .app-header {
+            background: var(--color-primary);
+            height: 56px;
+        }
+        
+        .category-item {
+            border-radius: 8px;
+            background-color: #f3f4f6;
+            transition: all 0.2s ease;
+        }
+        
+        .category-item:hover, .category-item.active {
+            background: var(--color-primary);
+            color: white;
+        }
+        
+        .category-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background-color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--color-primary);
+            font-size: 18px;
+            margin-bottom: 6px;
+        }
+        
+        .photo-upload {
+            width: 100px;
+            height: 100px;
+            border-radius: 8px;
+            border: 2px dashed #d1d5db;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .photo-upload:hover {
+            border-color: var(--color-primary);
+            background-color: rgba(71, 190, 212, 0.05);
+        }
+        
+        .gradient-button {
+            background: var(--color-primary);
+            color: white;
+            border-radius: 8px;
+            padding: 12px 24px;
+            font-weight: 600;
+            transition: all 0.2s ease;
+        }
+        
+        .gradient-button:hover {
+            opacity: 0.9;
+            transform: translateY(-1px);
+        }
+        
+        .navigation-bar {
+            height: 65px;
+            background-color: white;
+            border-top: 1px solid #eaeaea;
+        }
+        
+        .nav-icon {
+            font-size: 24px;
+            color: #6b7280;
+        }
+        
+        .nav-icon.active {
+            color: var(--color-primary);
+        }
+    </style>
+</head>
+<body class="bg-gray-100">
+    <!-- 状态栏 -->
+    <div class="status-bar flex justify-between items-center">
+        <div class="flex items-center">
+            <div class="mr-1">HD</div>
+            <i class="fas fa-signal mr-1"></i>
+            <div>4G</div>
+        </div>
+        <div>13:37</div>
+        <div class="flex items-center">
+            <i class="fas fa-eye mr-2"></i>
+            <i class="fas fa-wifi mr-2"></i>
+            <i class="fas fa-bluetooth-b mr-2"></i>
+            <div>100%</div>
+            <i class="fas fa-battery-full ml-1"></i>
+        </div>
+    </div>
+    
+    <!-- 应用标题栏 -->
+    <div class="app-header px-4 flex items-center justify-between">
+        <div class="flex items-center">
+            <a href="home.html" class="text-white">
+                <i class="fas fa-arrow-left text-xl"></i>
+            </a>
+        </div>
+        <div class="text-lg font-medium text-white">我要上报</div>
+        <div class="w-6"></div> <!-- 占位元素，保持标题居中 -->
+    </div>
+    
+    <!-- 内容区域 -->
+    <div class="px-4 py-6">
+        <!-- 上报说明 -->
+        <div class="bg-white rounded-lg p-4 mb-6 shadow-sm">
+            <h2 class="text-lg font-medium mb-2">问题快速上报</h2>
+            <p class="text-gray-600 text-sm">
+                请选择问题类型，填写详细描述并上传相关图片，我们将尽快处理您的反馈。
+            </p>
+        </div>
+        
+        <!-- 社区名称 -->
+        <div class="bg-white rounded-lg p-4 mb-6 shadow-sm">
+            <div class="flex justify-between items-center">
+                <h3 class="text-base font-medium">社区名称</h3>
+                <div class="text-gray-700">东兴社区</div>
+            </div>
+        </div>
+        
+        <!-- 问题类型选择 -->
+        <div class="mb-6">
+            <h3 class="text-base font-medium mb-3">选择问题类型</h3>
+            <div class="grid grid-cols-3 gap-3">
+                <div class="category-item active p-3 flex flex-col items-center">
+                    <div class="category-icon">
+                        <i class="fas fa-road"></i>
+                    </div>
+                    <span class="text-sm">道路设施</span>
+                </div>
+                <div class="category-item p-3 flex flex-col items-center">
+                    <div class="category-icon">
+                        <i class="fas fa-trash"></i>
+                    </div>
+                    <span class="text-sm">垃圾清理</span>
+                </div>
+                <div class="category-item p-3 flex flex-col items-center">
+                    <div class="category-icon">
+                        <i class="fas fa-tree"></i>
+                    </div>
+                    <span class="text-sm">绿化问题</span>
+                </div>
+                <div class="category-item p-3 flex flex-col items-center">
+                    <div class="category-icon">
+                        <i class="fas fa-exclamation-triangle"></i>
+                    </div>
+                    <span class="text-sm">安全隐患</span>
+                </div>
+                <div class="category-item p-3 flex flex-col items-center">
+                    <div class="category-icon">
+                        <i class="fas fa-water"></i>
+                    </div>
+                    <span class="text-sm">水电问题</span>
+                </div>
+                <div class="category-item p-3 flex flex-col items-center">
+                    <div class="category-icon">
+                        <i class="fas fa-ellipsis-h"></i>
+                    </div>
+                    <span class="text-sm">其他问题</span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 上报事项描述 -->
+        <div class="bg-white rounded-lg p-4 mb-6 shadow-sm">
+            <h3 class="text-base font-medium mb-3"><span class="text-red-500">*</span>上报事项描述</h3>
+            <textarea
+                class="w-full border border-gray-300 rounded-lg p-3 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                placeholder="请输入"
+                rows="4"
+            ></textarea>
+        </div>
+        
+        <!-- 现场照片 -->
+        <div class="bg-white rounded-lg p-4 mb-6 shadow-sm">
+            <h3 class="text-base font-medium mb-3">现场照片</h3>
+            <div class="flex space-x-3">
+                <div class="photo-upload">
+                    <i class="fas fa-plus text-gray-400 mb-1"></i>
+                    <span class="text-xs text-gray-500">添加图片</span>
+                </div>
+                <div class="photo-upload">
+                    <i class="fas fa-plus text-gray-400 mb-1"></i>
+                    <span class="text-xs text-gray-500">添加图片</span>
+                </div>
+                <div class="photo-upload">
+                    <i class="fas fa-plus text-gray-400 mb-1"></i>
+                    <span class="text-xs text-gray-500">添加图片</span>
+                </div>
+            </div>
+            <p class="text-gray-400 text-xs mt-2">
+                最多可上传9张图片，每张不超过5MB
+            </p>
+        </div>
+        
+        <!-- 上报事项地点 -->
+        <div class="bg-white rounded-lg p-4 mb-6 shadow-sm">
+            <h3 class="text-base font-medium mb-3"><span class="text-red-500">*</span>上报事项地点</h3>
+            <div class="flex items-center justify-between">
+                <input type="text" class="w-full border border-gray-300 rounded-lg p-3 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="请输入">
+            </div>
+        </div>
+        
+        <!-- 位置信息 -->
+        <div class="bg-white rounded-lg p-4 mb-6 shadow-sm">
+            <h3 class="text-base font-medium mb-3">位置信息</h3>
+            <div class="flex items-center justify-between">
+                <div class="flex items-center">
+                    <i class="fas fa-map-marker-alt text-red-500 mr-2"></i>
+                    <div>
+                        <div class="text-sm font-medium">当前位置</div>
+                        <div class="text-xs text-gray-500">楚雄市鹿城街道东兴社区</div>
+                    </div>
+                </div>
+                <button class="text-blue-500 text-sm">
+                    重新定位
+                </button>
+            </div>
+        </div>
+        
+        <!-- 上报人姓名 -->
+        <div class="bg-white rounded-lg p-4 mb-6 shadow-sm">
+            <h3 class="text-base font-medium mb-3"><span class="text-red-500">*</span>上报人姓名</h3>
+            <input type="text" class="w-full border border-gray-300 rounded-lg p-3 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="请输入">
+        </div>
+        
+        <!-- 联系电话 -->
+        <div class="bg-white rounded-lg p-4 mb-6 shadow-sm">
+            <h3 class="text-base font-medium mb-3"><span class="text-red-500">*</span>联系电话</h3>
+            <input type="tel" class="w-full border border-gray-300 rounded-lg p-3 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="请输入">
+        </div>
+        
+        <!-- 上报人身份 -->
+        <div class="bg-white rounded-lg p-4 mb-6 shadow-sm">
+            <h3 class="text-base font-medium mb-3"><span class="text-red-500">*</span>上报人身份</h3>
+            <div class="relative">
+                <select class="w-full appearance-none border border-gray-300 rounded-lg p-3 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white pr-10">
+                    <option value="" disabled selected>请选择</option>
+                    <option value="resident">社区居民</option>
+                    <option value="property">物业工作人员</option>
+                    <option value="community_worker">社区工作人员</option>
+                    <option value="volunteer">志愿者</option>
+                    <option value="other">其他</option>
+                </select>
+                <div class="absolute inset-y-0 right-0 flex items-center px-3 pointer-events-none">
+                    <i class="fas fa-chevron-right text-gray-400"></i>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 提交按钮 -->
+        <button class="gradient-button w-full mb-20">
+            提交
+        </button>
+    </div>
+    
+    <!-- 导航栏 -->
+    <div class="navigation-bar fixed bottom-0 left-0 right-0 flex justify-around items-center">
+        <div class="flex flex-col items-center">
+            <i class="fas fa-home nav-icon"></i>
+            <span class="text-xs mt-1 text-gray-500">首页</span>
+        </div>
+        <div class="flex flex-col items-center">
+            <i class="fas fa-compass nav-icon"></i>
+            <span class="text-xs mt-1 text-gray-500">发现</span>
+        </div>
+        <div class="flex flex-col items-center">
+            <i class="fas fa-bell nav-icon"></i>
+            <span class="text-xs mt-1 text-gray-500">消息</span>
+        </div>
+        <div class="flex flex-col items-center">
+            <i class="fas fa-user nav-icon"></i>
+            <span class="text-xs mt-1 text-gray-500">我的</span>
+        </div>
+    </div>
+</body>
+</html> 

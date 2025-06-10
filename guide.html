@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>办事指南 - 楚雄微智理</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --color-primary: rgb(59, 130, 246);    /* 蓝色 */
+            --color-secondary: rgb(79, 70, 229);   /* 靛蓝色 */
+            --color-accent: rgb(139, 92, 246);     /* 淡紫色 */
+            --color-light: rgb(243, 244, 246);     /* 浅灰色背景 */
+            --color-dark: rgb(31, 41, 55);         /* 深色文字 */
+        }
+        
+        body {
+            font-family: "SF Pro Display", "SF Pro Icons", "PingFang SC", "Helvetica Neue", Helvetica, Arial, sans-serif;
+            min-height: 100vh;
+            background-color: #f5f5f7;
+        }
+        
+        .status-bar {
+            height: 44px;
+            background-color: #f8f8f8;
+            padding: 0 16px;
+            font-size: 14px;
+        }
+        
+        .app-header {
+            background: var(--color-primary);
+            height: 56px;
+        }
+        
+        .category-tabs {
+            background: #fff;
+            overflow-x: auto;
+            white-space: nowrap;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
+        }
+        
+        .category-tabs::-webkit-scrollbar {
+            display: none;
+        }
+        
+        .category-tab {
+            display: inline-block;
+            padding: 12px 16px;
+            font-size: 15px;
+            color: #6b7280;
+            position: relative;
+        }
+        
+        .category-tab.active {
+            color: var(--color-primary);
+            font-weight: 500;
+        }
+        
+        .category-tab.active::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 16px;
+            right: 16px;
+            height: 3px;
+            background: var(--color-primary);
+            border-radius: 3px;
+        }
+        
+        .guide-item {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            margin-bottom: 12px;
+            transition: transform 0.15s ease;
+        }
+        
+        .guide-item:active {
+            transform: scale(0.98);
+        }
+        
+        .guide-tag {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            margin-right: 6px;
+        }
+        
+        .guide-tag.urgent {
+            color: #ef4444;
+            background-color: #fee2e2;
+        }
+        
+        .guide-tag.new {
+            color: #3b82f6;
+            background-color: #dbeafe;
+        }
+        
+        .guide-tag.popular {
+            color: #f59e0b;
+            background-color: #fef3c7;
+        }
+        
+        .search-bar {
+            border-radius: 8px;
+            background-color: #f3f4f6;
+        }
+        
+        .search-bar:focus-within {
+            background-color: white;
+            box-shadow: 0 0 0 2px var(--color-primary);
+        }
+        
+        .navigation-bar {
+            height: 65px;
+            background-color: white;
+            border-top: 1px solid #eaeaea;
+        }
+        
+        .nav-icon {
+            font-size: 24px;
+            color: #6b7280;
+        }
+        
+        .nav-icon.active {
+            color: var(--color-primary);
+        }
+    </style>
+</head>
+<body>
+    <!-- 状态栏 -->
+    <div class="status-bar flex justify-between items-center">
+        <div class="flex items-center">
+            <div class="mr-1">HD</div>
+            <i class="fas fa-signal mr-1"></i>
+            <div>4G</div>
+        </div>
+        <div>13:37</div>
+        <div class="flex items-center">
+            <i class="fas fa-eye mr-2"></i>
+            <i class="fas fa-wifi mr-2"></i>
+            <i class="fas fa-bluetooth-b mr-2"></i>
+            <div>100%</div>
+            <i class="fas fa-battery-full ml-1"></i>
+        </div>
+    </div>
+    
+    <!-- 应用标题栏 -->
+    <div class="app-header px-4 flex items-center justify-between">
+        <div class="flex items-center">
+            <a href="home.html" class="text-white">
+                <i class="fas fa-arrow-left text-xl"></i>
+            </a>
+        </div>
+        <div class="text-lg font-medium text-white">办事指南</div>
+        <div class="w-6"></div> <!-- 占位元素，保持标题居中 -->
+    </div>
+    
+    <!-- 搜索框 -->
+    <div class="p-4 bg-white">
+        <div class="search-bar flex items-center px-3 py-2">
+            <i class="fas fa-search text-gray-400 mr-2"></i>
+            <input type="text" placeholder="搜索办事指南" class="bg-transparent w-full text-sm focus:outline-none">
+        </div>
+    </div>
+    
+    <!-- 分类标签栏 -->
+    <div class="category-tabs border-b border-gray-200 mb-4">
+        <div class="category-tab active">全部</div>
+        <div class="category-tab">户籍办理</div>
+        <div class="category-tab">社保服务</div>
+        <div class="category-tab">医疗健康</div>
+        <div class="category-tab">教育服务</div>
+        <div class="category-tab">居住证明</div>
+        <div class="category-tab">老年服务</div>
+    </div>
+    
+    <!-- 指南列表 -->
+    <div class="px-4 pb-20">
+        <div class="guide-item shadow-sm">
+            <div class="p-4">
+                <div class="flex items-center mb-3">
+                    <div class="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center mr-3">
+                        <i class="fas fa-id-card text-blue-500"></i>
+                    </div>
+                    <div>
+                        <div class="font-medium">居民身份证办理指南</div>
+                        <div class="text-xs text-gray-500 mt-1">户籍管理 · 3分钟阅读</div>
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <span class="guide-tag urgent">加急</span>
+                    <span class="guide-tag popular">热门</span>
+                </div>
+                <div class="text-sm text-gray-600 mb-3">
+                    居民身份证是公民身份的重要法律凭证，本指南详细介绍了首次办理、补办、换领的完整流程...
+                </div>
+                <div class="flex justify-between items-center">
+                    <div class="text-xs text-gray-400">更新于 2023-06-15</div>
+                    <button class="text-blue-500 text-sm">查看详情 ></button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="guide-item shadow-sm">
+            <div class="p-4">
+                <div class="flex items-center mb-3">
+                    <div class="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center mr-3">
+                        <i class="fas fa-home text-green-500"></i>
+                    </div>
+                    <div>
+                        <div class="font-medium">居住证明办理指南</div>
+                        <div class="text-xs text-gray-500 mt-1">居住登记 · 2分钟阅读</div>
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <span class="guide-tag new">最新</span>
+                </div>
+                <div class="text-sm text-gray-600 mb-3">
+                    居住证明是证明公民在某地居住的法律凭证，常用于子女入学、考试报名等，本指南详细介绍了办理流程...
+                </div>
+                <div class="flex justify-between items-center">
+                    <div class="text-xs text-gray-400">更新于 2023-08-20</div>
+                    <button class="text-blue-500 text-sm">查看详情 ></button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="guide-item shadow-sm">
+            <div class="p-4">
+                <div class="flex items-center mb-3">
+                    <div class="w-10 h-10 bg-purple-100 rounded-lg flex items-center justify-center mr-3">
+                        <i class="fas fa-heartbeat text-purple-500"></i>
+                    </div>
+                    <div>
+                        <div class="font-medium">医疗保险参保指南</div>
+                        <div class="text-xs text-gray-500 mt-1">医疗保障 · 5分钟阅读</div>
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <span class="guide-tag popular">热门</span>
+                </div>
+                <div class="text-sm text-gray-600 mb-3">
+                    医疗保险是保障居民基本医疗需求的社会保险制度，本指南详细介绍了城镇职工和城乡居民两种医保的参保流程...
+                </div>
+                <div class="flex justify-between items-center">
+                    <div class="text-xs text-gray-400">更新于 2023-07-05</div>
+                    <button class="text-blue-500 text-sm">查看详情 ></button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="guide-item shadow-sm">
+            <div class="p-4">
+                <div class="flex items-center mb-3">
+                    <div class="w-10 h-10 bg-yellow-100 rounded-lg flex items-center justify-center mr-3">
+                        <i class="fas fa-baby text-yellow-500"></i>
+                    </div>
+                    <div>
+                        <div class="font-medium">新生儿户口登记指南</div>
+                        <div class="text-xs text-gray-500 mt-1">户籍管理 · 4分钟阅读</div>
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <span class="guide-tag new">最新</span>
+                </div>
+                <div class="text-sm text-gray-600 mb-3">
+                    新生儿出生后需及时办理户口登记，本指南详细说明了所需材料、办理地点和流程，帮助新手父母轻松完成登记...
+                </div>
+                <div class="flex justify-between items-center">
+                    <div class="text-xs text-gray-400">更新于 2023-09-01</div>
+                    <button class="text-blue-500 text-sm">查看详情 ></button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="guide-item shadow-sm">
+            <div class="p-4">
+                <div class="flex items-center mb-3">
+                    <div class="w-10 h-10 bg-red-100 rounded-lg flex items-center justify-center mr-3">
+                        <i class="fas fa-user-graduate text-red-500"></i>
+                    </div>
+                    <div>
+                        <div class="font-medium">适龄儿童入学指南</div>
+                        <div class="text-xs text-gray-500 mt-1">教育服务 · 6分钟阅读</div>
+                    </div>
+                </div>
+                <div class="text-sm text-gray-600 mb-3">
+                    本指南详细介绍了适龄儿童入学报名的时间节点、所需材料和流程，包含学区划分查询方式及入学政策解读...
+                </div>
+                <div class="flex justify-between items-center">
+                    <div class="text-xs text-gray-400">更新于 2023-05-10</div>
+                    <button class="text-blue-500 text-sm">查看详情 ></button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 导航栏 -->
+    <div class="navigation-bar fixed bottom-0 left-0 right-0 flex justify-around items-center">
+        <div class="flex flex-col items-center">
+            <i class="fas fa-home nav-icon"></i>
+            <span class="text-xs mt-1 text-gray-500">首页</span>
+        </div>
+        <div class="flex flex-col items-center">
+            <i class="fas fa-compass nav-icon"></i>
+            <span class="text-xs mt-1 text-gray-500">发现</span>
+        </div>
+        <div class="flex flex-col items-center">
+            <i class="fas fa-bell nav-icon"></i>
+            <span class="text-xs mt-1 text-gray-500">消息</span>
+        </div>
+        <div class="flex flex-col items-center">
+            <i class="fas fa-user nav-icon"></i>
+            <span class="text-xs mt-1 text-gray-500">我的</span>
+        </div>
+    </div>
+</body>
+</html> 

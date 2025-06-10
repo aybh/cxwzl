@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>我要提意见 - 楚雄微智理</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --color-primary: rgb(59, 130, 246);    /* 蓝色 */
+            --color-secondary: rgb(79, 70, 229);   /* 靛蓝色 */
+            --color-accent: rgb(139, 92, 246);     /* 淡紫色 */
+            --color-light: rgb(243, 244, 246);     /* 浅灰色背景 */
+            --color-dark: rgb(31, 41, 55);         /* 深色文字 */
+        }
+        
+        body {
+            font-family: "SF Pro Display", "SF Pro Icons", "PingFang SC", "Helvetica Neue", Helvetica, Arial, sans-serif;
+            min-height: 100vh;
+        }
+        
+        .status-bar {
+            height: 44px;
+            background-color: #f8f8f8;
+            padding: 0 16px;
+            font-size: 14px;
+        }
+        
+        .app-header {
+            background: var(--color-primary);
+            height: 56px;
+        }
+        
+        .category-item {
+            border-radius: 8px;
+            background-color: #f3f4f6;
+            transition: all 0.2s ease;
+            padding: 8px 16px;
+            margin-right: 8px;
+            display: inline-block;
+        }
+        
+        .category-item.active {
+            background: var(--color-primary);
+            color: white;
+        }
+        
+        .photo-upload {
+            width: 100px;
+            height: 100px;
+            border-radius: 8px;
+            border: 2px dashed #d1d5db;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .photo-upload:hover {
+            border-color: var(--color-primary);
+            background-color: rgba(71, 190, 212, 0.05);
+        }
+        
+        .gradient-button {
+            background: var(--color-primary);
+            color: white;
+            border-radius: 8px;
+            padding: 12px 24px;
+            font-weight: 600;
+            transition: all 0.2s ease;
+        }
+        
+        .gradient-button:hover {
+            opacity: 0.9;
+            transform: translateY(-1px);
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .navigation-bar {
+            height: 65px;
+            background-color: white;
+            border-top: 1px solid #eaeaea;
+        }
+        
+        .nav-icon {
+            font-size: 24px;
+            color: #6b7280;
+        }
+        
+        .nav-icon.active {
+            color: var(--color-primary);
+        }
+        
+        .feedback-tabs {
+            display: flex;
+            border-bottom: 1px solid #e5e7eb;
+            margin-bottom: 16px;
+        }
+        
+        .feedback-tab {
+            padding: 12px 0;
+            margin-right: 32px;
+            position: relative;
+            font-weight: 500;
+            color: #6b7280;
+            cursor: pointer;
+        }
+        
+        .feedback-tab.active {
+            color: var(--color-primary);
+        }
+        
+        .feedback-tab.active::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: var(--color-primary);
+            border-radius: 3px 3px 0 0;
+        }
+        
+        .feedback-item {
+            background-color: white;
+            border-radius: 12px;
+            margin-bottom: 12px;
+            overflow: hidden;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+        }
+        
+        .feedback-status {
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            display: inline-block;
+        }
+        
+        .feedback-status.pending {
+            background-color: #fef3c7;
+            color: #f59e0b;
+        }
+        
+        .feedback-status.processing {
+            background-color: #e0f2fe;
+            color: #0ea5e9;
+        }
+        
+        .feedback-status.resolved {
+            background-color: #d1fae5;
+            color: #10b981;
+        }
+    </style>
+</head>
+<body class="bg-gray-100">
+    <!-- 状态栏 -->
+    <div class="status-bar flex justify-between items-center">
+        <div class="flex items-center">
+            <div class="mr-1">HD</div>
+            <i class="fas fa-signal mr-1"></i>
+            <div>4G</div>
+        </div>
+        <div>13:37</div>
+        <div class="flex items-center">
+            <i class="fas fa-eye mr-2"></i>
+            <i class="fas fa-wifi mr-2"></i>
+            <i class="fas fa-bluetooth-b mr-2"></i>
+            <div>100%</div>
+            <i class="fas fa-battery-full ml-1"></i>
+        </div>
+    </div>
+    
+    <!-- 应用标题栏 -->
+    <div class="app-header px-4 flex items-center justify-between">
+        <div class="flex items-center">
+            <a href="home.html" class="text-white">
+                <i class="fas fa-arrow-left text-xl"></i>
+            </a>
+        </div>
+        <div class="text-lg font-medium text-white">我要提意见</div>
+        <div class="w-6"></div> <!-- 占位元素，保持标题居中 -->
+    </div>
+    
+    <!-- 标签页切换 -->
+    <div class="bg-white px-4">
+        <div class="feedback-tabs">
+            <div class="feedback-tab active" data-tab="submit">提交意见</div>
+            <div class="feedback-tab" data-tab="history">我的意见</div>
+        </div>
+    </div>
+    
+    <!-- 提交意见表单 -->
+    <div class="tab-content active" id="submit-tab">
+        <div class="p-4">
+            <!-- 意见说明卡片 -->
+            <div class="bg-white rounded-lg p-4 mb-6 shadow-sm">
+                <h2 class="text-lg font-medium mb-2">民意广泛收集</h2>
+                <p class="text-gray-600 text-sm">
+                    欢迎您提出宝贵的意见和建议，我们将认真对待每一条反馈，共同建设美好社区。
+                </p>
+            </div>
+            
+            <!-- 意见类型 -->
+            <div class="mb-6">
+                <h3 class="text-base font-medium mb-3">意见类型</h3>
+                <div class="flex flex-wrap">
+                    <div class="category-item active">
+                        环境卫生
+                    </div>
+                    <div class="category-item">
+                        设施建设
+                    </div>
+                    <div class="category-item">
+                        社区服务
+                    </div>
+                    <div class="category-item">
+                        物业管理
+                    </div>
+                    <div class="category-item mt-2">
+                        安全治安
+                    </div>
+                    <div class="category-item mt-2">
+                        其他建议
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 意见标题 -->
+            <div class="bg-white rounded-lg p-4 mb-6 shadow-sm">
+                <h3 class="text-base font-medium mb-3">意见标题</h3>
+                <input type="text" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="请输入意见标题，简要概括您的建议">
+            </div>
+            
+            <!-- 意见内容 -->
+            <div class="bg-white rounded-lg p-4 mb-6 shadow-sm">
+                <h3 class="text-base font-medium mb-3">意见内容</h3>
+                <textarea
+                    class="w-full border border-gray-300 rounded-lg p-3 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    placeholder="请详细描述您的意见或建议，以便我们更好地理解和处理..."
+                    rows="6"
+                ></textarea>
+            </div>
+            
+            <!-- 图片上传 -->
+            <div class="bg-white rounded-lg p-4 mb-8 shadow-sm">
+                <h3 class="text-base font-medium mb-3">上传图片（选填）</h3>
+                <div class="flex space-x-3">
+                    <div class="photo-upload">
+                        <i class="fas fa-plus text-gray-400 mb-1"></i>
+                        <span class="text-xs text-gray-500">添加图片</span>
+                    </div>
+                </div>
+                <p class="text-gray-400 text-xs mt-2">
+                    最多可上传3张图片，每张不超过5MB
+                </p>
+            </div>
+            
+            <!-- 匿名选项 -->
+            <div class="bg-white rounded-lg p-4 mb-8 shadow-sm">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <h3 class="text-base font-medium">匿名提交</h3>
+                        <p class="text-gray-500 text-xs mt-1">开启后，您的个人信息将不会显示</p>
+                    </div>
+                    <label class="relative inline-flex items-center cursor-pointer">
+                        <input type="checkbox" class="sr-only peer">
+                        <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-500"></div>
+                    </label>
+                </div>
+            </div>
+            
+            <!-- 提交按钮 -->
+            <button class="gradient-button w-full mb-20">
+                提交意见
+            </button>
+        </div>
+    </div>
+    
+    <!-- 历史意见标签页内容 -->
+    <div class="tab-content" id="history-tab">
+        <div class="p-4">
+            <!-- 历史意见列表 -->
+            <div class="feedback-item">
+                <div class="p-4">
+                    <div class="flex justify-between items-center mb-3">
+                        <h3 class="font-medium">社区休闲区座椅增设建议</h3>
+                        <span class="feedback-status resolved">已解决</span>
+                    </div>
+                    <p class="text-sm text-gray-600 mb-3">建议在社区中心休闲广场增设一些座椅，方便老人和居民休息交流...</p>
+                    <div class="flex justify-between items-center text-xs text-gray-400">
+                        <span>提交时间: 2023-06-10</span>
+                        <a href="#" class="text-blue-500">查看详情 ></a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="feedback-item">
+                <div class="p-4">
+                    <div class="flex justify-between items-center mb-3">
+                        <h3 class="font-medium">关于小区路灯亮度的建议</h3>
+                        <span class="feedback-status processing">处理中</span>
+                    </div>
+                    <p class="text-sm text-gray-600 mb-3">小区内某些区域的路灯亮度不足，夜间通行不便，建议增加灯光亮度...</p>
+                    <div class="flex justify-between items-center text-xs text-gray-400">
+                        <span>提交时间: 2023-07-15</span>
+                        <a href="#" class="text-blue-500">查看详情 ></a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="feedback-item">
+                <div class="p-4">
+                    <div class="flex justify-between items-center mb-3">
+                        <h3 class="font-medium">社区活动多样化的建议</h3>
+                        <span class="feedback-status pending">待处理</span>
+                    </div>
+                    <p class="text-sm text-gray-600 mb-3">建议社区组织更多样化的文体活动，如手工坊、读书会、棋牌比赛等...</p>
+                    <div class="flex justify-between items-center text-xs text-gray-400">
+                        <span>提交时间: 2023-08-22</span>
+                        <a href="#" class="text-blue-500">查看详情 ></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 导航栏 -->
+    <div class="navigation-bar fixed bottom-0 left-0 right-0 flex justify-around items-center">
+        <div class="flex flex-col items-center">
+            <i class="fas fa-home nav-icon"></i>
+            <span class="text-xs mt-1 text-gray-500">首页</span>
+        </div>
+        <div class="flex flex-col items-center">
+            <i class="fas fa-compass nav-icon"></i>
+            <span class="text-xs mt-1 text-gray-500">发现</span>
+        </div>
+        <div class="flex flex-col items-center">
+            <i class="fas fa-bell nav-icon"></i>
+            <span class="text-xs mt-1 text-gray-500">消息</span>
+        </div>
+        <div class="flex flex-col items-center">
+            <i class="fas fa-user nav-icon"></i>
+            <span class="text-xs mt-1 text-gray-500">我的</span>
+        </div>
+    </div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const tabs = document.querySelectorAll('.feedback-tab');
+            const tabContents = document.querySelectorAll('.tab-content');
+            
+            tabs.forEach(tab => {
+                tab.addEventListener('click', function() {
+                    const tabId = this.getAttribute('data-tab');
+                    
+                    // Remove active class from all tabs and contents
+                    tabs.forEach(t => t.classList.remove('active'));
+                    tabContents.forEach(c => c.classList.remove('active'));
+                    
+                    // Add active class to clicked tab and corresponding content
+                    this.classList.add('active');
+                    document.getElementById(tabId + '-tab').classList.add('active');
+                });
+            });
+        });
+    </script>
+</body>
+</html> 
